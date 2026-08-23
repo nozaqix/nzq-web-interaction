@@ -22,6 +22,9 @@ npm run deploy
 
 Cloudflare Pagesのプロジェクト名は `nzq-web-interaction` です。
 
+- 公開URL: [https://nzq-web-interaction.pages.dev](https://nzq-web-interaction.pages.dev)
+- GitHub: `nozaqix/nzq-web-interaction`（Private）
+
 ## 実験内容
 
 - Magnetic pull / カーソル追従
