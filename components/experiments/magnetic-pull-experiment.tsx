@@ -1,28 +1,86 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { type MouseEvent, useRef } from "react";
+import {
+  AnimatePresence,
+  motion,
+  stagger,
+  useAnimate,
+  useAnimationControls,
+  useMotionValue,
+  useSpring,
+} from "motion/react";
+import { type PointerEvent, useEffect, useRef, useState } from "react";
 
 import { ExperimentCard } from "../experiment-card";
 
 export function MagneticPullExperiment() {
-  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [stageRef, animate] = useAnimate();
+  const buttonControls = useAnimationControls();
+  const [isActivated, setIsActivated] = useState(false);
+  const resetLabelTimerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const targetX = useMotionValue(0);
+  const targetY = useMotionValue(0);
+  const x = useSpring(targetX, { stiffness: 125, damping: 21, mass: 0.72 });
+  const y = useSpring(targetY, { stiffness: 125, damping: 21, mass: 0.72 });
 
-  const handlePointerMove = (event: MouseEvent<HTMLButtonElement>) => {
-    const button = buttonRef.current;
-    if (!button) return;
+  useEffect(() => {
+    return () => {
+      if (resetLabelTimerRef.current) {
+        clearTimeout(resetLabelTimerRef.current);
+      }
+    };
+  }, []);
 
-    const bounds = button.getBoundingClientRect();
-    const x = (event.clientX - bounds.left - bounds.width / 2) * 0.22;
-    const y = (event.clientY - bounds.top - bounds.height / 2) * 0.22;
+  const handlePointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "touch") return;
 
-    button.style.setProperty("--mag-x", `${x}px`);
-    button.style.setProperty("--mag-y", `${y}px`);
+    const bounds = event.currentTarget.getBoundingClientRect();
+    const deltaX = event.clientX - (bounds.left + bounds.width / 2);
+    const deltaY = event.clientY - (bounds.top + bounds.height / 2);
+    const distance = Math.hypot(deltaX, deltaY);
+    const captureRadius = Math.min(280, Math.max(bounds.width, bounds.height) * 0.62);
+
+    if (distance > captureRadius) {
+      targetX.set(0);
+      targetY.set(0);
+      return;
+    }
+
+    const attraction = 0.38 * (1 - distance / captureRadius * 0.22);
+    const maxTravel = 82;
+    targetX.set(Math.max(-maxTravel, Math.min(maxTravel, deltaX * attraction)));
+    targetY.set(Math.max(-maxTravel, Math.min(maxTravel, deltaY * attraction)));
   };
 
   const resetPosition = () => {
-    buttonRef.current?.style.setProperty("--mag-x", "0px");
-    buttonRef.current?.style.setProperty("--mag-y", "0px");
+    targetX.set(0);
+    targetY.set(0);
+  };
+
+  const handleActivate = () => {
+    setIsActivated(true);
+
+    if (resetLabelTimerRef.current) {
+      clearTimeout(resetLabelTimerRef.current);
+    }
+
+    void buttonControls.start({
+      scale: [1, 0.84, 1.035, 1],
+      transition: {
+        duration: 0.48,
+        times: [0, 0.25, 0.63, 1],
+        ease: "easeInOut",
+      },
+    });
+    void animate(
+      ".magnetic-impact-ring",
+      { scale: [0.84, 2.85], opacity: [0, 0.72, 0] },
+      { duration: 0.64, delay: stagger(0.055), ease: [0.16, 1, 0.3, 1] },
+    );
+    resetLabelTimerRef.current = setTimeout(() => {
+      setIsActivated(false);
+    }, 320);
   };
 
   return (
@@ -33,19 +91,44 @@ export function MagneticPullExperiment() {
       slug="magnetic-pull"
       className="magnetic-card"
     >
-      <div className="magnetic-stage">
+      <div
+        ref={stageRef}
+        className="magnetic-stage"
+        onPointerMove={handlePointerMove}
+        onPointerLeave={resetPosition}
+      >
         <div className="orbit one" />
         <div className="orbit two" />
-        <button
-          ref={buttonRef}
-          className="magnetic-button"
-          onMouseMove={handlePointerMove}
-          onMouseLeave={resetPosition}
-        >
-          ENTER <ArrowUpRight size={22} />
-        </button>
+        <motion.span className="magnetic-feedback" style={{ x, y }} aria-hidden="true">
+          <span className="magnetic-impact-ring" />
+          <span className="magnetic-impact-ring" />
+          <span className="magnetic-impact-ring" />
+        </motion.span>
+        <motion.div className="magnetic-button-positioner" style={{ x, y }}>
+          <motion.button
+            className="magnetic-button"
+            animate={buttonControls}
+            onClick={handleActivate}
+            aria-label="Activate magnetic pull"
+          >
+            <span className="magnetic-label" aria-live="polite">
+              <AnimatePresence initial={false}>
+                <motion.span
+                  key={isActivated ? "pulled" : "enter"}
+                  initial={{ opacity: 0, y: 5 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -5 }}
+                  transition={{ duration: 0.18, ease: "easeInOut" }}
+                >
+                  {isActivated ? "PULLED" : "ENTER"}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+            <ArrowUpRight size={22} />
+          </motion.button>
+        </motion.div>
       </div>
-      <p className="hint">MOVE YOUR CURSOR CLOSER</p>
+      <p className="hint">MOVE TO ATTRACT · CLICK TO PULL</p>
     </ExperimentCard>
   );
 }

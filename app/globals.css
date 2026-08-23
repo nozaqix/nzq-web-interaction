@@ -62,12 +62,20 @@ button { color: inherit; }
 .grid[data-filter="input"] .experiment-card:not([data-category="input"]) { display: none; }
 
 .magnetic-card { background: radial-gradient(circle at 50% 55%, rgba(var(--accent-rgb), .12), transparent 35%), linear-gradient(145deg, rgba(255,255,255,.03), rgba(var(--accent-rgb), .025)), var(--surface); }
-.magnetic-stage { flex: 1; display: grid; place-items: center; position: relative; }
-.magnetic-button { --mag-x: 0px; --mag-y: 0px; width: 158px; height: 158px; border-radius: 50%; background: var(--accent); color: var(--accent-foreground); border: 0; font-size: 12px; font-weight: 900; letter-spacing: .14em; display: flex; align-items: center; justify-content: center; gap: 9px; cursor: pointer; transform: translate(var(--mag-x), var(--mag-y)); transition: transform .18s cubic-bezier(.2,.8,.2,1), box-shadow .3s; position: relative; z-index: 2; }
-.magnetic-button:hover { box-shadow: 0 0 55px rgba(var(--accent-rgb), .22); }
+.magnetic-stage { flex: 1; display: grid; place-items: center; position: relative; touch-action: manipulation; }
+.magnetic-button-positioner { position: relative; width: 158px; height: 158px; z-index: 3; will-change: transform; }
+.magnetic-button { width: 100%; height: 100%; border-radius: 50%; background: var(--accent); color: var(--accent-foreground); border: 0; font-size: 12px; font-weight: 900; letter-spacing: .14em; display: flex; align-items: center; justify-content: center; gap: 9px; cursor: pointer; position: relative; box-shadow: 0 0 0 rgba(var(--accent-rgb), 0); transition: box-shadow .3s; transform-origin: center; will-change: transform; }
+.magnetic-button:hover { box-shadow: 0 0 68px rgba(var(--accent-rgb), .32); }
+.magnetic-button:focus-visible { outline: 2px solid var(--paper); outline-offset: 5px; }
+.magnetic-label { position: relative; display: inline-grid; place-items: center; width: 62px; height: 18px; }
+.magnetic-label > span { grid-area: 1 / 1; }
 .orbit { position: absolute; border: 1px solid rgba(var(--accent-rgb), .16); border-radius: 50%; pointer-events: none; }
 .orbit.one { width: 260px; height: 260px; animation: orbit-pulse 4s ease-in-out infinite; }
 .orbit.two { width: 365px; height: 365px; animation: orbit-pulse 4s 1s ease-in-out infinite; }
+.magnetic-feedback { position: absolute; width: 158px; height: 158px; pointer-events: none; z-index: 2; will-change: transform; }
+.magnetic-impact-ring { position: absolute; inset: 0; border: 1px solid rgba(var(--accent-rgb), .82); border-radius: 50%; opacity: 0; box-shadow: 0 0 24px rgba(var(--accent-rgb), .08); }
+.magnetic-impact-ring:nth-child(2) { border-color: rgba(166, 158, 255, .56); }
+.magnetic-impact-ring:nth-child(3) { border-color: rgba(var(--accent-rgb), .34); }
 .hint { text-align: center; color: var(--tertiary); font-size: 9px; letter-spacing: .18em; }
 
 .toggle-stage { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; }
