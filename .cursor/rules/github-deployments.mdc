@@ -1,0 +1,12 @@
+---
+description: Require GitHub-triggered Cloudflare Pages deployments
+alwaysApply: true
+---
+
+# GitHub-only deployments
+
+- Deploy only through the repository's GitHub-connected Cloudflare Pages workflow.
+- Use feature or fix branch pushes for Preview Deploys.
+- Use approved PR merges into `main` for Production Deploys.
+- Do not run `wrangler pages deploy`, `npm run deploy`, or use Direct Upload.
+- Push, PR creation, and merge each require the user's authorization.

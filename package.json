@@ -5,7 +5,6 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "deploy": "npm run build && wrangler pages deploy out --project-name nzq-web-interaction",
     "start": "next start",
     "lint": "eslint ."
   },

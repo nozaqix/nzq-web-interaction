@@ -15,12 +15,13 @@ npm run dev
 
 Next.jsの静的書き出しを使用し、生成された `out/` をCloudflare Pagesへ配信します。
 
-`main` ブランチへのpushを検知すると、Cloudflare Pagesが `npm run build` を実行して自動デプロイします。手動で再デプロイする場合は以下を実行します。
+デプロイは必ずGitHub連携を経由します。feature / fixブランチへのpushでPreview Deploy、承認済みPRの`main`へのmergeでProduction Deployが自動実行されます。
 
 ```bash
 npm run build
-npm run deploy
 ```
+
+`wrangler pages deploy`やCloudflare Direct Uploadによる手動デプロイは行いません。
 
 Cloudflare Pagesのプロジェクト名は `nzq-web-interaction` です。
 
