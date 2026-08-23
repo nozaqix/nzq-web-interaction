@@ -16,6 +16,7 @@ export function LivingToastExperiment() {
       index="09"
       title="LIVING TOAST"
       category="click"
+      slug="living-toast"
       className="toast-card"
     >
       <div className="toast-stack">

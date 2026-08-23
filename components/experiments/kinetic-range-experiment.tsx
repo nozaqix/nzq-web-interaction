@@ -20,6 +20,7 @@ export function KineticRangeExperiment() {
       index="04"
       title="KINETIC RANGE"
       category="input"
+      slug="kinetic-range"
       className="range-card"
     >
       <div className="range-readout">

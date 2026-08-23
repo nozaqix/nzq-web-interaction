@@ -2,16 +2,8 @@
 
 import { useState } from "react";
 
-import { ElasticToggleExperiment } from "./experiments/elastic-toggle-experiment";
-import { KineticRangeExperiment } from "./experiments/kinetic-range-experiment";
-import { LivingToastExperiment } from "./experiments/living-toast-experiment";
-import { MagneticPullExperiment } from "./experiments/magnetic-pull-experiment";
-import { MorphingActionExperiment } from "./experiments/morphing-action-experiment";
-import { ReactionBurstExperiment } from "./experiments/reaction-burst-experiment";
-import { RippleOriginExperiment } from "./experiments/ripple-origin-experiment";
-import { SmartInputExperiment } from "./experiments/smart-input-experiment";
-import { TinyFeedbackExperiment } from "./experiments/tiny-feedback-experiment";
 import type { ExperimentCategory } from "./experiment-card";
+import { EXPERIMENTS } from "./experiments/experiment-registry";
 
 type Filter = "all" | ExperimentCategory;
 
@@ -40,7 +32,9 @@ export function InteractionShowcase() {
         <div className="status">
           <i /> INTERACTION LAB <span>— 2026</span>
         </div>
-        <div className="experiment-count">09 EXPERIMENTS</div>
+        <div className="experiment-count">
+          {String(EXPERIMENTS.length).padStart(2, "0")} EXPERIMENTS
+        </div>
       </header>
 
       <section className="filter-bar" aria-label="Experiment filters">
@@ -60,15 +54,9 @@ export function InteractionShowcase() {
 
       <section className="experiments" id="experiments">
         <div className="grid" data-filter={filter}>
-          <MagneticPullExperiment />
-          <ElasticToggleExperiment />
-          <MorphingActionExperiment />
-          <KineticRangeExperiment />
-          <RippleOriginExperiment />
-          <TinyFeedbackExperiment />
-          <SmartInputExperiment />
-          <ReactionBurstExperiment />
-          <LivingToastExperiment />
+          {EXPERIMENTS.map(({ slug, component: Experiment }) => (
+            <Experiment key={slug} />
+          ))}
         </div>
       </section>
     </main>

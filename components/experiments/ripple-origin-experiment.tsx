@@ -31,6 +31,7 @@ export function RippleOriginExperiment() {
       index="05"
       title="RIPPLE ORIGIN"
       category="click"
+      slug="ripple-origin"
       className="ripple-card"
     >
       <button className="ripple-button" onClick={createRipple}>

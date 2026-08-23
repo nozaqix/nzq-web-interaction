@@ -24,6 +24,7 @@ export function SmartInputExperiment() {
       index="07"
       title="SMART INPUT"
       category="input"
+      slug="smart-input"
       className="message-card"
     >
       <div className="message-preview">

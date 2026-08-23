@@ -30,6 +30,7 @@ export function MagneticPullExperiment() {
       index="01"
       title="MAGNETIC PULL"
       category="hover"
+      slug="magnetic-pull"
       className="magnetic-card"
     >
       <div className="magnetic-stage">
