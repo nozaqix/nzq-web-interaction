@@ -13,6 +13,7 @@ export function ElasticToggleExperiment() {
       index="02"
       title="ELASTIC TOGGLE"
       category="click"
+      slug="elastic-toggle"
       className="toggle-card"
     >
       <div className="toggle-stage">

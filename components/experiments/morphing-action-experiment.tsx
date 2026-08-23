@@ -26,6 +26,7 @@ export function MorphingActionExperiment() {
       index="03"
       title="MORPHING ACTION"
       category="click"
+      slug="morphing-action"
       className="cart-card"
     >
       <div className="product-mini">

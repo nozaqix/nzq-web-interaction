@@ -41,6 +41,10 @@ Cloudflare Pagesのプロジェクト名は `nzq-web-interaction` です。
 
 `prefers-reduced-motion` が有効な環境では、アニメーションを最小化します。
 
+## 詳細ページ
+
+一覧カード左下の `VIEW` から、各実験を大きく表示する個別ページへ移動できます。URLは `/experiments/{slug}` 形式です。個別ページには前後ナビゲーションがあり、インタラクション単体の確認や動画撮影に使用できます。
+
 ## アニメーションライブラリ
 
 - `motion`: DOM UIのgesture、layout、enter / exit

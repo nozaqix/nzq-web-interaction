@@ -21,6 +21,7 @@ export function ReactionBurstExperiment() {
       index="08"
       title="REACTION BURST"
       category="click"
+      slug="reaction-burst"
       className="reaction-card"
     >
       <div className="reaction-stage">

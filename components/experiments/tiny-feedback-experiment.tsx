@@ -13,6 +13,7 @@ export function TinyFeedbackExperiment() {
       index="06"
       title="TINY FEEDBACK"
       category="click"
+      slug="tiny-feedback"
       className="counter-card"
     >
       <div className="counter-controls">
